@@ -5,12 +5,17 @@ class DB:
         self.con = sql.connect("todo.db")
         self.cursor = self.con.cursor()
         self.create_task_table()
-    
-    def create_task_table(self, task, due_date=None):
+        
+    def create_task_table(self):
         self.cursor.execute("CREATE TABLE IF NOT EXISTS tasks(id integer PRIMARY KEY AUTOINCREMENT, task varchar(50) NOT NULL, due_date varchar(50), completed BOOLEAN NOT NULL CHECK (completed IN (0, 1)))")
         self.con.commit()
+
+    def create_task(self, task, due_date=None):
+        self.cursor.execute("INSERT INTO tasks(task, due_date, completed) VALUES(?, ?, ?)", (task, due_date, 0))
+        self.con.commit()
+
+        # GETTING THE LAST ENTERED ITEM SO WE CAN ADD IT TO THE TASK LIST
         created_task = self.cursor.execute("SELECT id, task, due_date FROM tasks WHERE task = ? and completed = 0", (task,)).fetchall()
-        
         return created_task[-1]
 
 
