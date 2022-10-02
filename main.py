@@ -5,13 +5,18 @@ from kivymd.uix.pickers import MDDatePicker
 from datetime import datetime as dt
 from kivymd.uix.list import TwoLineAvatarIconListItem, ILeftBodyTouch
 from kivymd.uix.selectioncontrol import MDCheckbox
-from kivy.core.window import Window
+# from kivy.core.window import Window
+from kivy.utils import platform
+
+if platform == "android":
+    from android.permissions import request_permissions, Permission
+    request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
 
 from db import DB
 
 db = DB()
 
-Window.size = (350, 600)
+# Window.size = (350, 600)
 
 class ListItemWithCheckBox(TwoLineAvatarIconListItem):
     def __init__(self, pk=None, **kwargs):
@@ -96,6 +101,12 @@ class MainApp(MDApp):
         self.root.ids['container'].add_widget(ListItemWithCheckBox(pk=created_task[0],text=f"[b]{created_task[1]}[/b]", secondary_text=created_task[2]))
         task.text = ""
     
+
+
+
+
+
+
 
 if __name__ == "__main__":
     app = MainApp()
