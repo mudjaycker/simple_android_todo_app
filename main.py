@@ -30,7 +30,7 @@ class DialogContent(MDBoxLayout):
 class MainApp(MDApp):
     task_list_dialog = None
     def build(self):
-        self.theme_cls.primary_palette = "DeepPurple"
+        self.theme_cls.primary_palette = "LightGreen"
 
 
     def show_task_dialog(self):
